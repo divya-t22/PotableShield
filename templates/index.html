@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <title>PotableShield | Emergency Water Intelligence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">💧</span>
+            <span>PotableShield</span>
+        </a>
+        <span class="prototype-tag">DECISION SUPPORT PROTOTYPE</span>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">EMERGENCY WATER MANAGEMENT</p>
+            <h1>Make every litre count.</h1>
+            <p class="hero-text">
+                Assess water shortages across essential facilities,
+                estimate potential safe non-potable substitution,
+                and explore actions for coordinating limited supplies.
+            </p>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <span class="step-number">01</span>
+                <div>
+                    <h2>Water emergency scenario</h2>
+                    <p>Choose facilities and enter their daily water requirements.</p>
+                </div>
+            </div>
+
+            <form id="scenario">
+                <fieldset class="facility-section">
+                    <legend>Select essential facilities</legend>
+                    <p class="field-help">
+                        Select the facilities included in this assessment.
+                        Only selected facilities will be included in the totals.
+                    </p>
+
+                    <div class="facility-grid">
+                        <label class="check">
+                            <input type="checkbox" name="facility_types"
+                                   value="hospital" checked>
+                            <span>🏥 Hospital</span>
+                        </label>
+
+                        <label class="check">
+                            <input type="checkbox" name="facility_types"
+                                   value="school" checked>
+                            <span>🏫 School</span>
+                        </label>
+
+                        <label class="check">
+                            <input type="checkbox" name="facility_types"
+                                   value="care_home">
+                            <span>🧑‍🦽 Care home</span>
+                        </label>
+
+                        <label class="check">
+                            <input type="checkbox" name="facility_types"
+                                   value="shelter">
+                            <span>🛟 Emergency shelter</span>
+                        </label>
+
+                        <label class="check">
+                            <input type="checkbox" name="facility_types"
+                                   value="emergency_services">
+                            <span>🚒 Emergency services</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="facility-section">
+                    <legend>Facility-level water requirements</legend>
+                    <p class="field-help">
+                        Enter litres per day for each facility. Eligible
+                        non-potable demand is the portion that may be considered
+                        for an appropriate alternative water source.
+                    </p>
+
+                    <div class="facility-demand-grid">
+
+                        <article class="facility-demand-card"
+                                 data-facility-card="hospital">
+                            <h3>🏥 Hospital</h3>
+
+                            <label>
+                                Total daily demand (L)
+                                <input type="number"
+                                       name="demand_hospital"
+                                       min="0.01" step="any"
+                                       value="25000" required>
+                            </label>
+
+                            <label>
+                                Potable supply available (L/day)
+                                <input type="number"
+                                       name="potable_hospital"
+                                       min="0" step="any"
+                                       value="18000" required>
+                            </label>
+
+                            <label>
+                                Eligible non-potable demand (%)
+                                <input type="number"
+                                       name="eligible_hospital"
+                                       min="0" max="100" step="any"
+                                       value="20" required>
+                            </label>
+                        </article>
+
+                        <article class="facility-demand-card"
+                                 data-facility-card="school">
+                            <h3>🏫 School</h3>
+
+                            <label>
+                                Total daily demand (L)
+                                <input type="number"
+                                       name="demand_school"
+                                       min="0.01" step="any"
+                                       value="25000" required>
+                            </label>
+
+                            <label>
+                                Potable supply available (L/day)
+                                <input type="number"
+                                       name="potable_school"
+                                       min="0" step="any"
+                                       value="17000" required>
+                            </label>
+
+                            <label>
+                                Eligible non-potable demand (%)
+                                <input type="number"
+                                       name="eligible_school"
+                                       min="0" max="100" step="any"
+                                       value="50" required>
+                            </label>
+                        </article>
+
+                        <article class="facility-demand-card"
+                                 data-facility-card="care_home">
+                            <h3>🧑‍🦽 Care home</h3>
+
+                            <label>
+                                Total daily demand (L)
+                                <input type="number"
+                                       name="demand_care_home"
+                                       min="0.01" step="any"
+                                       value="10000" required>
+                            </label>
+
+                            <label>
+                                Potable supply available (L/day)
+                                <input type="number"
+                                       name="potable_care_home"
+                                       min="0" step="any"
+                                       value="7000" required>
+                            </label>
+
+                            <label>
+                                Eligible non-potable demand (%)
+                                <input type="number"
+                                       name="eligible_care_home"
+                                       min="0" max="100" step="any"
+                                       value="25" required>
+                            </label>
+                        </article>
+
+                        <article class="facility-demand-card"
+                                 data-facility-card="shelter">
+                            <h3>🛟 Emergency shelter</h3>
+
+                            <label>
+                                Total daily demand (L)
+                                <input type="number"
+                                       name="demand_shelter"
+                                       min="0.01" step="any"
+                                       value="12000" required>
+                            </label>
+
+                            <label>
+                                Potable supply available (L/day)
+                                <input type="number"
+                                       name="potable_shelter"
+                                       min="0" step="any"
+                                       value="6000" required>
+                            </label>
+
+                            <label>
+                                Eligible non-potable demand (%)
+                                <input type="number"
+                                       name="eligible_shelter"
+                                       min="0" max="100" step="any"
+                                       value="30" required>
+                            </label>
+                        </article>
+
+                        <article class="facility-demand-card"
+                                 data-facility-card="emergency_services">
+                            <h3>🚒 Emergency services</h3>
+
+                            <label>
+                                Total daily demand (L)
+                                <input type="number"
+                                       name="demand_emergency_services"
+                                       min="0.01" step="any"
+                                       value="8000" required>
+                            </label>
+
+                            <label>
+                                Potable supply available (L/day)
+                                <input type="number"
+                                       name="potable_emergency_services"
+                                       min="0" step="any"
+                                       value="5000" required>
+                            </label>
+
+                            <label>
+                                Eligible non-potable demand (%)
+                                <input type="number"
+                                       name="eligible_emergency_services"
+                                       min="0" max="100" step="any"
+                                       value="25" required>
+                            </label>
+                        </article>
+
+                    </div>
+                </fieldset>
+
+                <fieldset class="facility-section">
+                    <legend>Alternative water availability</legend>
+
+                    <div class="form-grid">
+                        <label>
+                            Alternative water available (litres/day)
+                            <input type="number"
+                                   name="alternative_available"
+                                   min="0" step="any"
+                                   value="8000" required>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <div class="verification-section">
+                    <h3>Alternative water safety checks</h3>
+                    <p class="field-help">
+                        These checkboxes represent scenario assumptions.
+                        They do not certify water quality.
+                    </p>
+
+                    <label>
+                        Intended use
+                        <select name="intended_use" required>
+                            <option value="toilet_flushing">Toilet flushing</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="irrigation">Irrigation</option>
+                            <option value="drinking_cooking">Drinking or cooking</option>
+                        </select>
+                    </label>
+
+                    <label class="check">
+                        <input type="checkbox" name="alternative_verified">
+                        <span>Source has been verified</span>
+                    </label>
+
+                    <label class="check">
+                        <input type="checkbox" name="alternative_suitable">
+                        <span>Suitability for the intended use has been confirmed</span>
+                    </label>
+                </div>
+
+                <button type="submit" id="analyse-button">
+                    Analyse water scenario <span aria-hidden="true">→</span>
+                </button>
+
+                <p id="message" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="results" class="results-section" hidden>
+            <div class="section-heading">
+                <span class="step-number">02</span>
+                <div>
+                    <h2>Scenario intelligence</h2>
+                    <p>Overall estimates, facility-level shortages and suggested actions.</p>
+                </div>
+            </div>
+
+            <div class="risk-panel" id="risk-panel">
+                <div>
+                    <p class="eyebrow">WATER EMERGENCY RISK</p>
+                    <h2 id="risk-level">—</h2>
+                    <p id="risk-description">Based on the calculated shortage.</p>
+                </div>
+                <div class="risk-number">
+                    <span id="shortage-percent">0%</span>
+                    <small>of total demand short</small>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <article class="metric-card">
+                    <span class="metric-icon">💧</span>
+                    <p>Potential potable water saved</p>
+                    <h3 id="saved">—</h3>
+                    <span id="percent" class="metric-detail">—</span>
+                </article>
+
+                <article class="metric-card">
+                    <span class="metric-icon">📊</span>
+                    <p>Remaining potable demand</p>
+                    <h3 id="remaining">—</h3>
+                    <span class="metric-detail">Litres per day</span>
+                </article>
+
+                <article class="metric-card">
+                    <span class="metric-icon">⚠️</span>
+                    <p>Remaining shortage</p>
+                    <h3 id="shortage">—</h3>
+                    <span class="metric-detail">Litres per day</span>
+                </article>
+
+                <article class="metric-card">
+                    <span class="metric-icon">📍</span>
+                    <p>Scenario status</p>
+                    <h3 id="status">—</h3>
+                    <span class="metric-detail">Calculated result</span>
+                </article>
+            </div>
+
+            <article class="panel">
+                <p class="eyebrow">FACILITY ASSESSMENT</p>
+                <h2>Demand and supply by facility</h2>
+                <p class="field-help">
+                    Compare calculated shortages to identify facilities
+                    requiring further review. This is not an automatic
+                    water-allocation decision.
+                </p>
+                <div id="facility-results" class="facility-results"></div>
+            </article>
+
+            <article class="panel">
+                <p class="eyebrow">ASSESSMENT</p>
+                <h2>What this means</h2>
+                <p id="diagnosis"></p>
+                <p><strong>Recommended first action:</strong></p>
+                <p id="recommendation"></p>
+            </article>
+
+            <article class="panel">
+                <p class="eyebrow">ACTION PLAN</p>
+                <h2>Recommended actions</h2>
+                <ul id="actions-list" class="actions-list"></ul>
+            </article>
+
+            
+            <article class="panel decision-support-panel">
+                <p class="eyebrow">DECISION SUPPORT</p>
+                <h2>Priority findings and next steps</h2>
+
+                 <p id="decision-support-summary">
+                    Decision-support findings will appear after analysis.
+                </p>
+
+                <div id="decision-findings" class="decision-findings"></div>
+
+                <h3>Recommended next steps</h3>
+                <ul id="decision-next-steps" class="actions-list"></ul>
+
+                <p id="human-approval-note" class="field-help">
+                    Human review is required before real-world action.
+                </p>
+            </article>
+
+            <article class="panel">
+                <p class="eyebrow">SCENARIO DETAILS</p>
+                <h2>Calculation breakdown</h2>
+                <div id="details" class="details-list"></div>
+            </article>
+
+            <article class="panel">
+                <p class="eyebrow">ASSUMPTIONS & SAFEGUARDS</p>
+                <h2>Read before acting</h2>
+                <ul id="assumptions" class="assumptions-list"></ul>
+            </article>
+
+
+            <!-- WATER SOURCE & DELIVERY PLANNER -->
+            <section id="delivery-planner" class="panel delivery-planner">
+                <div class="section-heading">
+                    <span class="step-number">03</span>
+                    <div>
+                        <h2>Water source & delivery planner</h2>
+                        <p>
+                            Propose deliveries to facilities with calculated
+                            potable-water shortages.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="planner-notice">
+                    <strong>Human approval required</strong>
+                    <p>
+                        Enter available potable-water sources and delivery
+                        vehicles. This prototype creates a proposed plan;
+                        it does not dispatch vehicles or verify live supplies.
+                    </p>
+                </div>
+
+                <div class="planner-subsection">
+                    <h3>Available water sources</h3>
+                    <p class="field-help">
+                        Only sources marked as potable-water confirmed
+                        can be used to address potable-water shortages.
+                    </p>
+
+                    <div id="water-sources" class="planner-rows">
+                        <div class="source-row">
+                            <label>
+                                Source name
+                                <input
+                                    type="text"
+                                    name="source_name"
+                                    placeholder="e.g. Municipal tanker depot"
+                                    value="Municipal tanker depot"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Available potable water (L)
+                                <input
+                                    type="number"
+                                    name="source_available"
+                                    min="0"
+                                    step="any"
+                                    value="10000"
+                                    required
+                                >
+                            </label>
+
+                            <label class="check">
+                                <input
+                                    type="checkbox"
+                                    name="source_potable"
+                                    checked
+                                >
+                                <span>Potable water confirmed</span>
+                            </label>
+
+                            <button
+                                type="button"
+                                class="secondary-button remove-row-button"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="add-source-button"
+                        class="secondary-button"
+                    >
+                        + Add water source
+                    </button>
+                </div>
+
+                <div class="planner-subsection">
+                    <h3>Delivery vehicles</h3>
+                    <p class="field-help">
+                        Enter each vehicle's capacity and estimated arrival
+                        time. Estimates are manually supplied, not live ETAs.
+                    </p>
+
+                    <div id="delivery-vehicles" class="planner-rows">
+                        <div class="vehicle-row">
+                            <label>
+                                Vehicle name
+                                <input
+                                    type="text"
+                                    name="vehicle_name"
+                                    placeholder="e.g. Tanker 1"
+                                    value="Tanker 1"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Capacity (L)
+                                <input
+                                    type="number"
+                                    name="vehicle_capacity"
+                                    min="0.01"
+                                    step="any"
+                                    value="5000"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Estimated arrival time (minutes)
+                                <input
+                                    type="number"
+                                    name="vehicle_eta"
+                                    min="0"
+                                    step="any"
+                                    value="30"
+                                    required
+                                >
+                            </label>
+
+                            <label class="check">
+                                <input
+                                    type="checkbox"
+                                    name="vehicle_available"
+                                    checked
+                                >
+                                <span>Vehicle available</span>
+                            </label>
+
+                            <button
+                                type="button"
+                                class="secondary-button remove-row-button"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="add-vehicle-button"
+                        class="secondary-button"
+                    >
+                        + Add delivery vehicle
+                    </button>
+                </div>
+
+                <button
+                    type="button"
+                    id="plan-deliveries-button"
+                    class="primary-button"
+                >
+                    Generate proposed delivery plan →
+                </button>
+
+                <p
+                    id="delivery-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+                <div id="delivery-results" hidden>
+                    <div class="delivery-summary-grid">
+                        <article class="metric-card">
+                            <p>Total proposed deliveries</p>
+                            <h3 id="delivery-total">0 L</h3>
+                        </article>
+
+                        <article class="metric-card">
+                            <p>Shortage still unallocated</p>
+                            <h3 id="delivery-unallocated">0 L</h3>
+                        </article>
+                    </div>
+
+                    <h3>Proposed deliveries</h3>
+                    <div id="delivery-plan-list" class="delivery-plan-list"></div>
+
+                    <h3>Planning notes</h3>
+                    <ul id="delivery-notes" class="assumptions-list"></ul>
+
+                    <p class="field-help">
+                        Review source quantities, vehicle availability,
+                        facility priorities and arrival estimates before
+                        approving any delivery.
+                    </p>
+                </div>
+            </section>
+
+        </section>
+
+        <footer>
+            <p>PotableShield · Student decision-support prototype</p>
+            <p>
+                Scenario estimates only. No live supply or water-quality
+                verification is performed. Human review is required before
+                real-world decisions.
+            </p>
+        </footer>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
+
